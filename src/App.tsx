@@ -21,7 +21,14 @@ import {
   BrandGithub,
 } from "tabler-icons-react";
 import { COLORS } from "./constants/theme";
-import { AboutScreen, MyPortfolioScreen } from "./screens";
+import {
+  AboutScreen,
+  HomeScreen,
+  MyPortfolioScreen,
+  SigninScreen,
+  SignupScreen,
+  UserDashboardScreen,
+} from "./screens";
 
 function App() {
   const theme = useMantineTheme();
@@ -45,26 +52,49 @@ function App() {
             p="md"
             hiddenBreakpoint="sm"
             hidden={!opened}
-            width={{ sm: 200, lg: 300 }}
+            width={{ sm: 250, lg: 300 }}
           >
-            <Group
-              my={"xl"}
-              position="apart"
-              py={"lg"}
-              px={"sm"}
-              style={{ background: COLORS.secondary, borderRadius: "5px" }}
-            >
-              <Text>User Dashboard </Text>
-              <User
-                size={25}
-                strokeWidth={2}
-                color={
-                  theme.colorScheme === "dark"
-                    ? theme.colors.dark[0]
-                    : theme.colors.gray[8]
-                }
-              />
-            </Group>
+            {" "}
+            <Link to={"/signin"}>
+              <Group
+                my={"xl"}
+                position="apart"
+                py={"lg"}
+                px={"sm"}
+                style={{ background: COLORS.secondary, borderRadius: "5px" }}
+              >
+                <Text>Sign in</Text>
+                <User
+                  size={25}
+                  strokeWidth={2}
+                  color={
+                    theme.colorScheme === "dark"
+                      ? theme.colors.dark[0]
+                      : theme.colors.gray[8]
+                  }
+                />
+              </Group>
+            </Link>
+            <Link to={"/userdashboard"}>
+              <Group
+                my={"xl"}
+                position="apart"
+                py={"lg"}
+                px={"sm"}
+                style={{ background: COLORS.secondary, borderRadius: "5px" }}
+              >
+                <Text>User Dashboard </Text>
+                <User
+                  size={25}
+                  strokeWidth={2}
+                  color={
+                    theme.colorScheme === "dark"
+                      ? theme.colors.dark[0]
+                      : theme.colors.gray[8]
+                  }
+                />
+              </Group>
+            </Link>
             <Link to="/myportfolio" onClick={() => setOpened(!opened)}>
               <Navbar.Section
                 my={"xs"}
@@ -131,10 +161,30 @@ function App() {
                 </Group>
               </Navbar.Section>
             </a>
+            <Link to={"/signup"}>
+              <Group
+                my={"xl"}
+                position="apart"
+                py={"lg"}
+                px={"sm"}
+                style={{ background: COLORS.secondary, borderRadius: "5px" }}
+              >
+                <Text>Sign up</Text>
+                <User
+                  size={25}
+                  strokeWidth={2}
+                  color={
+                    theme.colorScheme === "dark"
+                      ? theme.colors.dark[0]
+                      : theme.colors.gray[8]
+                  }
+                />
+              </Group>
+            </Link>
           </Navbar>
         }
         aside={
-          <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+          <MediaQuery smallerThan="md" styles={{ display: "none" }}>
             <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 300 }}>
               <Text>User Assets</Text>
             </Aside>
@@ -166,21 +216,23 @@ function App() {
                   mr="xl"
                 />
               </MediaQuery>
-
-              <Text>My Local Finance Portfolio</Text>
+              <Link to={"/"}>
+                <Text>My Local Finance Portfolio</Text>
+              </Link>
             </div>
           </Header>
         }
       >
         <main>
-          <Container
-            size={"xl"}
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
+          <Container mb={100} size={"lg"}>
             <Routes>
               {/* Public Routes */}
+              <Route path="/" element={<HomeScreen />} />
               <Route path="/myportfolio" element={<MyPortfolioScreen />} />
               <Route path="/about" element={<AboutScreen />} />
+              <Route path="/userdashboard" element={<UserDashboardScreen />} />
+              <Route path="/signup" element={<SignupScreen />} />
+              <Route path="/signin" element={<SigninScreen />} />
               {/* Protected Routes */}
             </Routes>
           </Container>

@@ -25,7 +25,8 @@ const Holdings = () => {
     <Flex
       justify={"space-between"}
       align={"center"}
-      direction={{ sm: "column", md: "row" }}
+      direction={"column"}
+      // direction={{ sm: "column", md: "row" }}
       gap={"xl"}
     >
       <Title order={4}>All My Holdings</Title>

@@ -1,10 +1,10 @@
-import { Holdings, InputProperty } from "../components";
+import { InputProperty } from "../components";
 
 const MyPortfolioScreen = () => {
   return (
     <div>
       <InputProperty />
-      <Holdings />
+      {/* <Holdings /> */}
     </div>
   );
 };
