@@ -31,6 +31,7 @@ import {
 } from "./screens";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUserInfo, signOut } from "./Store";
+import { ProtectedRoute } from "./components";
 
 function App() {
   const theme = useMantineTheme();
@@ -281,12 +282,26 @@ function App() {
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<HomeScreen />} />
-              <Route path="/myportfolio" element={<MyPortfolioScreen />} />
-              <Route path="/about" element={<AboutScreen />} />
-              <Route path="/userdashboard" element={<UserDashboardScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
               {/* Protected Routes */}
+              <Route
+                path="/myportfolio"
+                element={
+                  <ProtectedRoute>
+                    <MyPortfolioScreen />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/about" element={<AboutScreen />} />
+              <Route
+                path="/userdashboard"
+                element={
+                  <ProtectedRoute>
+                    <UserDashboardScreen />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </Container>
         </main>

@@ -17,7 +17,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signIn, selectUserInfo } from "../Store";
 import { toast } from "react-toastify";
-import { getError } from "../utils";
+import { getError } from "../utils/utils";
 import { useEffect } from "react";
 
 const SignupScreen = () => {
