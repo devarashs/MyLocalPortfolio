@@ -29,11 +29,18 @@ import {
   SignupScreen,
   UserDashboardScreen,
 } from "./screens";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUserInfo, signOut } from "./Store";
 
 function App() {
   const theme = useMantineTheme();
-
+  const userInfo = useSelector(selectUserInfo);
   const [opened, setOpened] = useState(false);
+  const dispatch = useDispatch();
+  const SignOutHandler = () => {
+    dispatch(signOut());
+    localStorage.removeItem("userInfo");
+  };
   return (
     <BrowserRouter>
       <AppShell
@@ -55,67 +62,83 @@ function App() {
             width={{ sm: 250, lg: 300 }}
           >
             {" "}
-            <Link to={"/signin"}>
-              <Group
-                my={"xl"}
-                position="apart"
-                py={"lg"}
-                px={"sm"}
-                style={{ background: COLORS.secondary, borderRadius: "5px" }}
-              >
-                <Text>Sign in</Text>
-                <User
-                  size={25}
-                  strokeWidth={2}
-                  color={
-                    theme.colorScheme === "dark"
-                      ? theme.colors.dark[0]
-                      : theme.colors.gray[8]
-                  }
-                />
-              </Group>
-            </Link>
-            <Link to={"/userdashboard"}>
-              <Group
-                my={"xl"}
-                position="apart"
-                py={"lg"}
-                px={"sm"}
-                style={{ background: COLORS.secondary, borderRadius: "5px" }}
-              >
-                <Text>User Dashboard </Text>
-                <User
-                  size={25}
-                  strokeWidth={2}
-                  color={
-                    theme.colorScheme === "dark"
-                      ? theme.colors.dark[0]
-                      : theme.colors.gray[8]
-                  }
-                />
-              </Group>
-            </Link>
-            <Link to="/myportfolio" onClick={() => setOpened(!opened)}>
-              <Navbar.Section
-                my={"xs"}
-                style={{ background: COLORS.lightGrey, borderRadius: "5px" }}
-                py={"lg"}
-                px={"sm"}
-              >
-                <Group position="apart">
-                  <Text className="ltr-text-line">My Portfolio</Text>
-                  <ChartPie4
-                    size={25}
-                    strokeWidth={2}
-                    color={
-                      theme.colorScheme === "dark"
-                        ? theme.colors.dark[0]
-                        : theme.colors.gray[8]
-                    }
-                  />
-                </Group>
-              </Navbar.Section>
-            </Link>
+            {!userInfo ? (
+              <>
+                <Link to={"/signin"}>
+                  <Group
+                    my={"xl"}
+                    position="apart"
+                    py={"lg"}
+                    px={"sm"}
+                    style={{
+                      background: COLORS.secondary,
+                      borderRadius: "5px",
+                    }}
+                  >
+                    <Text>Sign in</Text>
+                    <User
+                      size={25}
+                      strokeWidth={2}
+                      color={
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[0]
+                          : theme.colors.gray[8]
+                      }
+                    />
+                  </Group>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to={"/userdashboard"}>
+                  <Group
+                    my={"xl"}
+                    position="apart"
+                    py={"lg"}
+                    px={"sm"}
+                    style={{
+                      background: COLORS.secondary,
+                      borderRadius: "5px",
+                    }}
+                  >
+                    <Text>User Dashboard </Text>
+                    <User
+                      size={25}
+                      strokeWidth={2}
+                      color={
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[0]
+                          : theme.colors.gray[8]
+                      }
+                    />
+                  </Group>
+                </Link>
+                <Link to="/myportfolio" onClick={() => setOpened(!opened)}>
+                  <Navbar.Section
+                    my={"xs"}
+                    style={{
+                      background: COLORS.lightGrey,
+                      borderRadius: "5px",
+                    }}
+                    py={"lg"}
+                    px={"sm"}
+                  >
+                    <Group position="apart">
+                      <Text className="ltr-text-line">My Portfolio</Text>
+                      <ChartPie4
+                        size={25}
+                        strokeWidth={2}
+                        color={
+                          theme.colorScheme === "dark"
+                            ? theme.colors.dark[0]
+                            : theme.colors.gray[8]
+                        }
+                      />
+                    </Group>
+                  </Navbar.Section>
+                </Link>
+              </>
+            )}
             <Link to="/about" onClick={() => setOpened(!opened)}>
               <Navbar.Section
                 my={"xs"}
@@ -161,26 +184,56 @@ function App() {
                 </Group>
               </Navbar.Section>
             </a>
-            <Link to={"/signup"}>
-              <Group
-                my={"xl"}
-                position="apart"
-                py={"lg"}
-                px={"sm"}
-                style={{ background: COLORS.secondary, borderRadius: "5px" }}
-              >
-                <Text>Sign up</Text>
-                <User
-                  size={25}
-                  strokeWidth={2}
-                  color={
-                    theme.colorScheme === "dark"
-                      ? theme.colors.dark[0]
-                      : theme.colors.gray[8]
-                  }
-                />
-              </Group>
-            </Link>
+            {userInfo ? (
+              <Link to={"/signin"} onClick={() => SignOutHandler()}>
+                <Navbar.Section
+                  my={"xs"}
+                  style={{
+                    background: COLORS.lightGrey,
+                    borderRadius: "5px",
+                  }}
+                  py={"lg"}
+                  px={"sm"}
+                >
+                  <Group position="apart">
+                    <Text className="ltr-text-line">Sign Out</Text>
+                    <ChartPie4
+                      size={25}
+                      strokeWidth={2}
+                      color={
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[0]
+                          : theme.colors.gray[8]
+                      }
+                    />
+                  </Group>
+                </Navbar.Section>
+              </Link>
+            ) : (
+              <Link to={"/signup"}>
+                <Group
+                  my={"xl"}
+                  position="apart"
+                  py={"lg"}
+                  px={"sm"}
+                  style={{
+                    background: COLORS.secondary,
+                    borderRadius: "5px",
+                  }}
+                >
+                  <Text>Sign up</Text>
+                  <User
+                    size={25}
+                    strokeWidth={2}
+                    color={
+                      theme.colorScheme === "dark"
+                        ? theme.colors.dark[0]
+                        : theme.colors.gray[8]
+                    }
+                  />
+                </Group>
+              </Link>
+            )}
           </Navbar>
         }
         aside={

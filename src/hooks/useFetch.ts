@@ -1,13 +1,6 @@
 import { useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 
-interface FetchResult<T> {
-  data: T[];
-  isLoading: boolean;
-  error: unknown;
-  refetch: () => void;
-}
-
 const useFetch = <T>(): FetchResult<T> => {
   const [data, setData] = useState<T[]>([]);
   const [isLoading, setIsLoading] = useState(false);
