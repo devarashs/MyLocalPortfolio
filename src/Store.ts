@@ -17,10 +17,13 @@ const userSlice = createSlice({
       state.userInfo = null;
       localStorage.removeItem("userInfo");
     },
+    postSuccess: () => {
+      // This action doesn't need to modify the state, it's just a signa
+    },
   },
 });
 
-export const { signIn, signOut } = userSlice.actions;
+export const { signIn, signOut, postSuccess } = userSlice.actions;
 
 export const selectUserInfo = (state: { user: UserState }) =>
   state.user.userInfo;

@@ -32,6 +32,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { selectUserInfo, signOut } from "./Store";
 import { ProtectedRoute } from "./components";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const theme = useMantineTheme();
@@ -44,6 +46,7 @@ function App() {
   };
   return (
     <BrowserRouter>
+      <ToastContainer theme="dark" position="bottom-center" limit={1} />
       <AppShell
         styles={{
           main: {
