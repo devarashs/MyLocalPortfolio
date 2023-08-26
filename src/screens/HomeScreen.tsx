@@ -1,10 +1,11 @@
+import { LoadingOverlay } from "@mantine/core";
 import { useFetch } from "../hooks";
 
 const HomeScreen = () => {
   const response = useFetch("/check");
   console.log(response);
   return response.isLoading ? (
-    <div>loading</div>
+    <LoadingOverlay color="black" visible={response.isLoading} />
   ) : response.error ? (
     <div>error</div>
   ) : (

@@ -23,7 +23,6 @@ import {
 import { COLORS } from "./constants/theme";
 import {
   AboutScreen,
-  HomeScreen,
   MyPortfolioScreen,
   SigninScreen,
   SignupScreen,
@@ -284,7 +283,7 @@ function App() {
           <Container mb={100} size={"lg"}>
             <Routes>
               {/* Public Routes */}
-              <Route path="/" element={<HomeScreen />} />
+              <Route path="/" element={<SignupScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
               {/* Protected Routes */}
