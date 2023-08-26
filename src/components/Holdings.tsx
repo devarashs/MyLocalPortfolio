@@ -1,17 +1,18 @@
-import React from "react";
 import { PieChart, Pie } from "recharts";
 import { Flex, LoadingOverlay, Title } from "@mantine/core";
 import { useFetch } from "../hooks";
+import { useEffect } from "react";
 
 interface HoldingsProps {
   query: string;
+  doRefetch: boolean;
 }
 
-const Holdings: React.FC<HoldingsProps> = ({ query }) => {
+const Holdings: React.FC<HoldingsProps> = ({ query, doRefetch }) => {
   const data = useFetch(`/property/${query}`);
-  // React.useEffect(() => {
-  //   data.refetch();
-  // }, [inputLoading]);
+  useEffect(() => {
+    data.refetch();
+  }, [doRefetch]);
   console.log(data.data);
   return data.isLoading ? (
     <LoadingOverlay color="black" visible={data.isLoading} />

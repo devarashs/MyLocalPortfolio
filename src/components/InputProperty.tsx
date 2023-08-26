@@ -15,7 +15,12 @@ import axios from "axios";
 import { getError } from "../utils";
 import { useState } from "react";
 
-const InputProperty = () => {
+interface InputProps {
+  doRefetch: boolean;
+  setDoRefetch: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const InputProperty: React.FC<InputProps> = ({ setDoRefetch, doRefetch }) => {
   const userInfo = useSelector(selectUserInfo);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -43,7 +48,7 @@ const InputProperty = () => {
     setLoading(true);
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_LOCAL_API}/property/create`,
+        "/property/create",
         {
           tag: form.values.name,
           category: form.values.propertyType,
@@ -58,6 +63,7 @@ const InputProperty = () => {
       console.log(data);
       toast.success("product created successfully");
       setLoading(false);
+      setDoRefetch(!doRefetch);
       dispatch(postSuccess());
       // dispatch({ type: "CREATE_SUCCESS" });
     } catch (err: unknown) {

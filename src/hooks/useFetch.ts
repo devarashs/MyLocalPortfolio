@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
+import axios from "../axios";
 import { useSelector } from "react-redux";
 import { selectUserInfo } from "../Store";
 
@@ -17,12 +18,9 @@ const useFetch = <T>(requestQuery: string): FetchResult<T> => {
 
     setIsLoading(true);
     try {
-      const response: AxiosResponse = await axios.get(
-        import.meta.env.VITE_LOCAL_API + requestQuery,
-        {
-          headers: { Authorization: `Bearer ${userInfo.token}` },
-        }
-      );
+      const response: AxiosResponse = await axios.get(requestQuery, {
+        headers: { Authorization: `Bearer ${userInfo.token}` },
+      });
       setData(response.data);
 
       setIsLoading(false);

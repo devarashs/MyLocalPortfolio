@@ -10,7 +10,7 @@ import {
   Title,
 } from "@mantine/core";
 import { isEmail, isNotEmpty, matchesField, useForm } from "@mantine/form";
-import axios from "axios";
+import axios from "../axios";
 import styles from "../styles/components/InputProperty.module.css";
 import { COLORS } from "../constants/theme";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -58,14 +58,11 @@ const SignupScreen = () => {
       return;
     }
     try {
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_LOCAL_API}/users/signup`,
-        {
-          name: form.values.name,
-          email: form.values.email,
-          password: form.values.password,
-        }
-      );
+      const { data } = await axios.post("/users/signup", {
+        name: form.values.name,
+        email: form.values.email,
+        password: form.values.password,
+      });
       dispatch(signIn(data));
 
       localStorage.setItem("userInfo", JSON.stringify(data));
