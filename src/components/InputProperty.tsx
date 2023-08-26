@@ -8,8 +8,8 @@ import {
 } from "@mantine/core";
 import styles from "../styles/components/InputProperty.module.css";
 import { useForm, isNotEmpty } from "@mantine/form";
-import { useDispatch, useSelector } from "react-redux";
-import { postSuccess, selectUserInfo } from "../Store";
+import { useSelector } from "react-redux";
+import { selectUserInfo } from "../Store";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { getError } from "../utils";
@@ -22,7 +22,7 @@ interface InputProps {
 
 const InputProperty: React.FC<InputProps> = ({ setDoRefetch, doRefetch }) => {
   const userInfo = useSelector(selectUserInfo);
-  const dispatch = useDispatch();
+
   const [loading, setLoading] = useState(false);
 
   const form = useForm({
@@ -61,15 +61,15 @@ const InputProperty: React.FC<InputProps> = ({ setDoRefetch, doRefetch }) => {
         }
       );
       console.log(data);
-      toast.success("product created successfully");
+      toast.success("Property created successfully");
       setLoading(false);
       setDoRefetch(!doRefetch);
-      dispatch(postSuccess());
-      // dispatch({ type: "CREATE_SUCCESS" });
     } catch (err: unknown) {
       if (err instanceof Error) {
         toast.error(getError(err));
       }
+      setLoading(false);
+    } finally {
       setLoading(false);
     }
   };

@@ -34,3 +34,21 @@ type CustomError = {
       | undefined;
   };
 };
+
+interface DataArray {
+  data: unknown[];
+  doRefetch: boolean;
+  setDoRefetch: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface Element {
+  __v: number;
+  _id: string;
+  tag: string;
+  category: string;
+  valuePerShare: string;
+  totalShareAmount: string;
+  totalValue: number;
+  createdA: string;
+  updatedAt: string;
+}

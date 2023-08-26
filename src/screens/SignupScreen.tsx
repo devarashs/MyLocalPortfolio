@@ -5,6 +5,7 @@ import {
   Container,
   Flex,
   Group,
+  NativeSelect,
   Text,
   TextInput,
   Title,
@@ -19,10 +20,15 @@ import { signIn, selectUserInfo } from "../Store";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { getError } from "../utils";
+import { currencies } from "../constants/statics";
+import React from "react";
 
 const SignupScreen = () => {
   const navigate = useNavigate();
   const { search } = useLocation();
+  const [preferedCurrency, setPreferedCurrency] = React.useState<string>(
+    currencies[0]
+  );
   const redirectInUrl = new URLSearchParams(search).get("redirect");
   const redirect = redirectInUrl ? redirectInUrl : "/";
   const dispatch = useDispatch();
@@ -31,6 +37,7 @@ const SignupScreen = () => {
     initialValues: {
       name: "",
       email: "",
+      preferedCurrency: preferedCurrency,
       password: "",
       confirmPassword: "",
       terms: false,
@@ -61,6 +68,7 @@ const SignupScreen = () => {
       const { data } = await axios.post("/users/signup", {
         name: form.values.name,
         email: form.values.email,
+        preferedCurrency: form.values.preferedCurrency,
         password: form.values.password,
       });
       dispatch(signIn(data));
@@ -118,6 +126,16 @@ const SignupScreen = () => {
                   type="email"
                   withAsterisk
                   {...form.getInputProps("email")}
+                />
+              </Group>
+              <Group className={styles.inputContainer}>
+                <Text>Prefered Currency</Text>
+                <NativeSelect
+                  defaultValue={"USD"}
+                  data={currencies}
+                  onChange={(event) =>
+                    setPreferedCurrency(event.currentTarget.value)
+                  }
                 />
               </Group>
               <Group className={styles.inputContainer}>
