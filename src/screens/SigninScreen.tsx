@@ -18,6 +18,7 @@ import { signIn, selectUserInfo } from "../Store";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { getError } from "../utils";
+import { motion } from "framer-motion";
 
 const SigninScreen = () => {
   const navigate = useNavigate();
@@ -92,19 +93,31 @@ const SigninScreen = () => {
             >
               <Group className={styles.inputContainer}>
                 <Text>Email</Text>
-                <TextInput
-                  type="email"
-                  withAsterisk
-                  {...form.getInputProps("email")}
-                />
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.85 }}
+                  style={{ backgroundColor: "inherit" }}
+                >
+                  <TextInput
+                    type="email"
+                    withAsterisk
+                    {...form.getInputProps("email")}
+                  />
+                </motion.div>
               </Group>
               <Group className={styles.inputContainer}>
                 <Text>Password</Text>
-                <TextInput
-                  type="password"
-                  withAsterisk
-                  {...form.getInputProps("password")}
-                />
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.85 }}
+                  style={{ backgroundColor: "inherit" }}
+                >
+                  <TextInput
+                    type="password"
+                    withAsterisk
+                    {...form.getInputProps("password")}
+                  />
+                </motion.div>
               </Group>
 
               <Button type="submit" variant="filled" color="dark">

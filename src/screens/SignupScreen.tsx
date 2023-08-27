@@ -22,11 +22,12 @@ import { useEffect } from "react";
 import { getError } from "../utils";
 import { currencies } from "../constants/statics";
 import React from "react";
+import { motion } from "framer-motion";
 
 const SignupScreen = () => {
   const navigate = useNavigate();
   const { search } = useLocation();
-  const [preferedCurrency, setPreferedCurrency] = React.useState<string>(
+  const [preferredCurrency, setPreferredCurrency] = React.useState<string>(
     currencies[0]
   );
   const redirectInUrl = new URLSearchParams(search).get("redirect");
@@ -37,7 +38,7 @@ const SignupScreen = () => {
     initialValues: {
       name: "",
       email: "",
-      preferedCurrency: preferedCurrency,
+      preferredCurrency: preferredCurrency,
       password: "",
       confirmPassword: "",
       terms: false,
@@ -68,13 +69,13 @@ const SignupScreen = () => {
       const { data } = await axios.post("/users/signup", {
         name: form.values.name,
         email: form.values.email,
-        preferedCurrency: form.values.preferedCurrency,
+        preferredCurrency: preferredCurrency,
         password: form.values.password,
       });
       dispatch(signIn(data));
 
       localStorage.setItem("userInfo", JSON.stringify(data));
-      navigate(redirect || "/");
+      navigate(redirect || "/myportfolio");
     } catch (err: unknown) {
       if (err instanceof Error) {
         toast.error(getError(err));
@@ -114,56 +115,91 @@ const SignupScreen = () => {
             >
               <Group className={styles.inputContainer}>
                 <Text>Name</Text>
-                <TextInput
-                  withAsterisk
-                  type="text"
-                  {...form.getInputProps("name")}
-                />
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{ backgroundColor: "inherit" }}
+                >
+                  <TextInput
+                    withAsterisk
+                    type="text"
+                    {...form.getInputProps("name")}
+                  />
+                </motion.div>
               </Group>
               <Group className={styles.inputContainer}>
                 <Text>Email</Text>
-                <TextInput
-                  type="email"
-                  withAsterisk
-                  {...form.getInputProps("email")}
-                />
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{ backgroundColor: "inherit" }}
+                >
+                  <TextInput
+                    type="email"
+                    withAsterisk
+                    {...form.getInputProps("email")}
+                  />
+                </motion.div>
               </Group>
               <Group className={styles.inputContainer}>
-                <Text>Prefered Currency</Text>
-                <NativeSelect
-                  defaultValue={"USD"}
-                  data={currencies}
-                  onChange={(event) =>
-                    setPreferedCurrency(event.currentTarget.value)
-                  }
-                />
+                <Text>Preferred Currency</Text>
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  style={{ backgroundColor: "inherit" }}
+                >
+                  <NativeSelect
+                    data={currencies}
+                    onChange={(event) =>
+                      setPreferredCurrency(event.currentTarget.value)
+                    }
+                  />
+                </motion.div>
               </Group>
               <Group className={styles.inputContainer}>
                 <Text>Password</Text>
-                <TextInput
-                  type="password"
-                  withAsterisk
-                  {...form.getInputProps("password")}
-                />
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{ backgroundColor: "inherit" }}
+                >
+                  <TextInput
+                    type="password"
+                    withAsterisk
+                    {...form.getInputProps("password")}
+                  />
+                </motion.div>
               </Group>
               <Group className={styles.inputContainer}>
                 <Text>Confirm Password</Text>
-                <TextInput
-                  type="password"
-                  withAsterisk
-                  {...form.getInputProps("confirmPassword")}
-                />
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{ backgroundColor: "inherit" }}
+                >
+                  <TextInput
+                    type="password"
+                    withAsterisk
+                    {...form.getInputProps("confirmPassword")}
+                  />
+                </motion.div>
               </Group>
               <Group display={"flex"}>
-                <Checkbox
-                  {...form.getInputProps("terms")}
-                  color="blue"
-                  label="I Agree To Be A Good Person!"
-                />
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{ backgroundColor: "inherit" }}
+                >
+                  <Checkbox
+                    {...form.getInputProps("terms")}
+                    color="blue"
+                    label="I Agree To Be A Good Person!"
+                  />
+                </motion.div>
                 <Text color="cyan" size={"xs"}>
                   We Do Not Use Any Of Your Data!
                 </Text>
               </Group>
+
               <Button type="submit" variant="filled" color="dark">
                 Sign Up
               </Button>

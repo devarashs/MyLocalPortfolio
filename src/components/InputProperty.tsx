@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { getError } from "../utils";
 import { useState } from "react";
-
+import { motion } from "framer-motion";
 interface InputProps {
   doRefetch: boolean;
   setDoRefetch: React.Dispatch<React.SetStateAction<boolean>>;
@@ -79,37 +79,64 @@ const InputProperty: React.FC<InputProps> = ({ setDoRefetch, doRefetch }) => {
       <form onSubmit={form.onSubmit(() => handleSubmit())}>
         <Group className={styles.inputContainer}>
           <Text>Select Property Type</Text>
-          <NativeSelect
-            data={[
-              "Stock",
-              "Cryptocurrency",
-              "Commodity",
-              "Cash",
-              "Foreign Currency",
-            ]}
-            {...form.getInputProps("propertyType")}
-            withAsterisk
-          />
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            style={{ backgroundColor: "inherit" }}
+          >
+            <NativeSelect
+              data={[
+                "Stock",
+                "Cryptocurrency",
+                "Commodity",
+                "Cash",
+                "Foreign Currency",
+              ]}
+              {...form.getInputProps("propertyType")}
+              withAsterisk
+            />
+          </motion.div>
         </Group>
         <Group className={styles.inputContainer}>
           <Text>{form.values.propertyType} - Tag</Text>
-          <TextInput type="text" withAsterisk {...form.getInputProps("name")} />
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.85 }}
+            style={{ backgroundColor: "inherit" }}
+          >
+            <TextInput
+              type="text"
+              withAsterisk
+              {...form.getInputProps("name")}
+            />
+          </motion.div>
         </Group>
         <Group className={styles.inputContainer}>
           <Text>{form.values.propertyType} - Total Share Amount</Text>
-          <TextInput
-            type="number"
-            withAsterisk
-            {...form.getInputProps("totalShareAmount")}
-          />
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.85 }}
+            style={{ backgroundColor: "inherit" }}
+          >
+            <TextInput
+              type="number"
+              withAsterisk
+              {...form.getInputProps("totalShareAmount")}
+            />
+          </motion.div>
         </Group>
         <Group className={styles.inputContainer}>
           <Text>{form.values.propertyType} - Value</Text>
-          <TextInput
-            type="number"
-            withAsterisk
-            {...form.getInputProps("value")}
-          />
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.85 }}
+            style={{ backgroundColor: "inherit" }}
+          >
+            <TextInput
+              type="number"
+              withAsterisk
+              {...form.getInputProps("value")}
+            />
+          </motion.div>
         </Group>
         <Group position="center">
           <Button loading={loading} type="submit" color="gray">

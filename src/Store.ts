@@ -11,6 +11,7 @@ const userSlice = createSlice({
   reducers: {
     signIn: (state, action: PayloadAction<UserInfo>) => {
       state.userInfo = action.payload;
+      localStorage.removeItem("userInfo");
       localStorage.setItem("userInfo", JSON.stringify(action.payload));
     },
     signOut: (state) => {

@@ -16,9 +16,10 @@ import {
 } from "@mantine/core";
 import {
   User,
-  ArrowBarToLeft,
+  ArrowGuide,
   ChartPie4,
   BrandGithub,
+  AlertOctagon,
 } from "tabler-icons-react";
 import { COLORS } from "./constants/theme";
 import {
@@ -33,6 +34,7 @@ import { selectUserInfo, signOut } from "./Store";
 import { ProtectedRoute } from "./components";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { motion } from "framer-motion";
 
 function App() {
   const theme = useMantineTheme();
@@ -41,7 +43,6 @@ function App() {
   const dispatch = useDispatch();
   const SignOutHandler = () => {
     dispatch(signOut());
-    localStorage.removeItem("userInfo");
   };
   return (
     <BrowserRouter>
@@ -60,11 +61,10 @@ function App() {
         navbar={
           <Navbar
             p="md"
-            hiddenBreakpoint="sm"
+            hiddenBreakpoint="md"
             hidden={!opened}
             width={{ sm: 250, lg: 300 }}
           >
-            {" "}
             {!userInfo ? (
               <>
                 <Link to={"/signin"}>
@@ -94,41 +94,23 @@ function App() {
             ) : (
               <>
                 <Link to={"/userdashboard"}>
-                  <Group
-                    my={"xl"}
-                    position="apart"
-                    py={"lg"}
-                    px={"sm"}
-                    style={{
-                      background: COLORS.secondary,
-                      borderRadius: "5px",
-                    }}
+                  <motion.div
+                    whileHover={{ scale: 1.025 }}
+                    whileTap={{ scale: 0.85 }}
+                    style={{ backgroundColor: "inherit" }}
                   >
-                    <Text>User Dashboard </Text>
-                    <User
-                      size={25}
-                      strokeWidth={2}
-                      color={
-                        theme.colorScheme === "dark"
-                          ? theme.colors.dark[0]
-                          : theme.colors.gray[8]
-                      }
-                    />
-                  </Group>
-                </Link>
-                <Link to="/myportfolio" onClick={() => setOpened(!opened)}>
-                  <Navbar.Section
-                    my={"xs"}
-                    style={{
-                      background: COLORS.lightGrey,
-                      borderRadius: "5px",
-                    }}
-                    py={"lg"}
-                    px={"sm"}
-                  >
-                    <Group position="apart">
-                      <Text className="ltr-text-line">My Portfolio</Text>
-                      <ChartPie4
+                    <Group
+                      my={"xl"}
+                      position="apart"
+                      py={"lg"}
+                      px={"sm"}
+                      style={{
+                        background: COLORS.secondary,
+                        borderRadius: "5px",
+                      }}
+                    >
+                      <Text>User Dashboard </Text>
+                      <User
                         size={25}
                         strokeWidth={2}
                         color={
@@ -138,69 +120,55 @@ function App() {
                         }
                       />
                     </Group>
-                  </Navbar.Section>
+                  </motion.div>
+                </Link>
+                <Link to="/myportfolio" onClick={() => setOpened(!opened)}>
+                  <motion.div
+                    whileHover={{ scale: 1.025 }}
+                    whileTap={{ scale: 0.85 }}
+                    style={{ backgroundColor: "inherit" }}
+                  >
+                    <Navbar.Section
+                      my={"xs"}
+                      style={{
+                        background: COLORS.lightGrey,
+                        borderRadius: "5px",
+                      }}
+                      py={"lg"}
+                      px={"sm"}
+                    >
+                      <Group position="apart">
+                        <Text className="ltr-text-line">My Portfolio</Text>
+                        <ChartPie4
+                          size={25}
+                          strokeWidth={2}
+                          color={
+                            theme.colorScheme === "dark"
+                              ? theme.colors.dark[0]
+                              : theme.colors.gray[8]
+                          }
+                        />
+                      </Group>
+                    </Navbar.Section>
+                  </motion.div>
                 </Link>
               </>
             )}
             <Link to="/about" onClick={() => setOpened(!opened)}>
-              <Navbar.Section
-                my={"xs"}
-                style={{ background: COLORS.lightGrey, borderRadius: "5px" }}
-                py={"lg"}
-                px={"sm"}
+              <motion.div
+                whileHover={{ scale: 1.025 }}
+                whileTap={{ scale: 0.85 }}
+                style={{ backgroundColor: "inherit" }}
               >
-                <Group position="apart">
-                  <Text className="ltr-text-line">About</Text>
-                  <ArrowBarToLeft
-                    size={25}
-                    strokeWidth={2}
-                    color={
-                      theme.colorScheme === "dark"
-                        ? theme.colors.dark[0]
-                        : theme.colors.gray[8]
-                    }
-                  />
-                </Group>
-              </Navbar.Section>
-            </Link>
-            <a
-              href="https://github.com/devarashs/MyLocalPortfolio"
-              onClick={() => setOpened(!opened)}
-            >
-              <Navbar.Section
-                my={"xs"}
-                style={{ background: COLORS.lightGrey, borderRadius: "5px" }}
-                py={"lg"}
-                px={"sm"}
-              >
-                <Group position="apart">
-                  <Text className="ltr-text-line">Source Code</Text>
-                  <BrandGithub
-                    size={25}
-                    strokeWidth={2}
-                    color={
-                      theme.colorScheme === "dark"
-                        ? theme.colors.dark[0]
-                        : theme.colors.gray[8]
-                    }
-                  />
-                </Group>
-              </Navbar.Section>
-            </a>
-            {userInfo ? (
-              <Link to={"/signin"} onClick={() => SignOutHandler()}>
                 <Navbar.Section
                   my={"xs"}
-                  style={{
-                    background: COLORS.lightGrey,
-                    borderRadius: "5px",
-                  }}
+                  style={{ background: COLORS.lightGrey, borderRadius: "5px" }}
                   py={"lg"}
                   px={"sm"}
                 >
                   <Group position="apart">
-                    <Text className="ltr-text-line">Sign Out</Text>
-                    <ChartPie4
+                    <Text className="ltr-text-line">About</Text>
+                    <ArrowGuide
                       size={25}
                       strokeWidth={2}
                       color={
@@ -211,30 +179,98 @@ function App() {
                     />
                   </Group>
                 </Navbar.Section>
+              </motion.div>
+            </Link>
+            <motion.div
+              whileHover={{ scale: 1.025 }}
+              whileTap={{ scale: 0.85 }}
+              style={{ backgroundColor: "inherit" }}
+            >
+              <a
+                href="https://github.com/devarashs/MyLocalPortfolio"
+                onClick={() => setOpened(!opened)}
+              >
+                <Navbar.Section
+                  my={"xs"}
+                  style={{ background: COLORS.lightGrey, borderRadius: "5px" }}
+                  py={"lg"}
+                  px={"sm"}
+                >
+                  <Group position="apart">
+                    <Text className="ltr-text-line">Source Code</Text>
+                    <BrandGithub
+                      size={25}
+                      strokeWidth={2}
+                      color={
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[0]
+                          : theme.colors.gray[8]
+                      }
+                    />
+                  </Group>
+                </Navbar.Section>
+              </a>
+            </motion.div>
+            {userInfo ? (
+              <Link to={"/signin"} onClick={() => SignOutHandler()}>
+                <motion.div
+                  whileHover={{ scale: 1.025 }}
+                  whileTap={{ scale: 0.85 }}
+                  style={{ backgroundColor: "inherit" }}
+                >
+                  <Navbar.Section
+                    my={"xs"}
+                    style={{
+                      background: COLORS.lightGrey,
+                      borderRadius: "5px",
+                    }}
+                    py={"lg"}
+                    px={"sm"}
+                  >
+                    <Group position="apart">
+                      <Text className="ltr-text-line">Sign Out</Text>
+                      <AlertOctagon
+                        size={25}
+                        strokeWidth={2}
+                        color={
+                          theme.colorScheme === "dark"
+                            ? theme.colors.dark[0]
+                            : theme.colors.gray[8]
+                        }
+                      />
+                    </Group>
+                  </Navbar.Section>
+                </motion.div>
               </Link>
             ) : (
               <Link to={"/signup"}>
-                <Group
-                  my={"xl"}
-                  position="apart"
-                  py={"lg"}
-                  px={"sm"}
-                  style={{
-                    background: COLORS.secondary,
-                    borderRadius: "5px",
-                  }}
+                <motion.div
+                  whileHover={{ scale: 1.025 }}
+                  whileTap={{ scale: 0.85 }}
+                  style={{ backgroundColor: "inherit" }}
                 >
-                  <Text>Sign up</Text>
-                  <User
-                    size={25}
-                    strokeWidth={2}
-                    color={
-                      theme.colorScheme === "dark"
-                        ? theme.colors.dark[0]
-                        : theme.colors.gray[8]
-                    }
-                  />
-                </Group>
+                  <Group
+                    my={"xl"}
+                    position="apart"
+                    py={"lg"}
+                    px={"sm"}
+                    style={{
+                      background: COLORS.secondary,
+                      borderRadius: "5px",
+                    }}
+                  >
+                    <Text>Sign up</Text>
+                    <User
+                      size={25}
+                      strokeWidth={2}
+                      color={
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[0]
+                          : theme.colors.gray[8]
+                      }
+                    />
+                  </Group>
+                </motion.div>
               </Link>
             )}
           </Navbar>
@@ -259,7 +295,7 @@ function App() {
             <div
               style={{ display: "flex", alignItems: "center", height: "100%" }}
             >
-              <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+              <MediaQuery largerThan="md" styles={{ display: "none" }}>
                 <Burger
                   opened={opened}
                   onClick={() => setOpened((o) => !o)}

@@ -16,10 +16,11 @@ import { useSelector } from "react-redux";
 import { selectUserInfo } from "../Store";
 import { toast } from "react-toastify";
 import { getError } from "../utils";
-import { useForm } from "@mantine/form";
+import { isNotEmpty, useForm } from "@mantine/form";
 import styles from "../styles/components/InputProperty.module.css";
 import { COLORS } from "../constants/theme";
 import { defaultEditorState } from "../constants/statics";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface EditProps {
   _id: string;
@@ -36,15 +37,17 @@ interface EditorState {
 const Holdings: React.FC<DataArray> = ({ data, setDoRefetch, doRefetch }) => {
   const form = useForm({
     initialValues: {
-      value: "",
+      value: 0,
       totalShareAmount: "",
     },
 
     validate: {
       value: (value) =>
-        parseInt(value) <= 0 ? "Value Can Not Be Zero Or Negative" : null,
+        value <= 0 ? "Value Can Not Be Zero Or Negative" : null,
+      totalShareAmount: isNotEmpty("Enter Total Share Amount Please!"),
     },
   });
+
   const [opendEditor, setOpenEditor] =
     React.useState<EditorState>(defaultEditorState);
   const [loading, setLoading] = React.useState(false);
@@ -80,7 +83,7 @@ const Holdings: React.FC<DataArray> = ({ data, setDoRefetch, doRefetch }) => {
         `/property/${id}`,
         {
           _id: id,
-          valuePerShare: form.values.value,
+          valuePerShare: form.values.value.toString(),
           totalShareAmount: form.values.totalShareAmount,
         },
         {
@@ -99,6 +102,10 @@ const Holdings: React.FC<DataArray> = ({ data, setDoRefetch, doRefetch }) => {
     }
   };
 
+  React.useEffect(() => {
+    if (opendEditor.doEdit) window.scrollTo(0, document.body.scrollHeight);
+  }, [opendEditor]);
+
   return loading ? (
     <LoadingOverlay color={COLORS.lightGrey} visible={loading} />
   ) : (
@@ -109,116 +116,155 @@ const Holdings: React.FC<DataArray> = ({ data, setDoRefetch, doRefetch }) => {
       wrap={"nowrap"}
       gap={"xl"}
     >
-      <PieChart width={400} height={400}>
-        <Pie
-          data={data}
-          dataKey="totalValue"
-          cx="50%"
-          cy="50%"
-          innerRadius={0}
-          outerRadius={90}
-          fill="#82ca9d"
-          label={(property) => property.tag}
-        />
-      </PieChart>
-      <Table>
-        <thead>
-          <tr>
-            <th>Tag</th>
-            <th>Category</th>
-            <th>Value Per Share</th>
-            <th>Total Share Amount</th>
-            <th>Total Value</th>
-            <th>Edit</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
+      <motion.div
+        whileHover={{ scale: 1.2 }}
+        whileTap={{ scale: 0.85 }}
+        style={{ backgroundColor: "inherit" }}
+      >
+        <PieChart width={400} height={400}>
+          <Pie
+            data={data}
+            dataKey="totalValue"
+            cx="50%"
+            cy="50%"
+            innerRadius={0}
+            outerRadius={90}
+            fill="#82ca9d"
+            label={(property) => property.tag}
+          />
+        </PieChart>
+      </motion.div>
+      <Table highlightOnHover withBorder>
         <tbody>
           {(data as Element[]).map((element: Element, index: number) => {
             return (
               <tr key={index}>
-                <td>{element.tag}</td>
-                <td>{element.category}</td>
+                <td>{element.tag}</td> <td>{element.category}</td>
                 <td>{element.valuePerShare}</td>
                 <td>{element.totalShareAmount}</td>
                 <td>{element.totalValue}</td>
                 <td>
-                  <Edit
-                    size={20}
-                    strokeWidth={2}
-                    color={"green"}
-                    onClick={() =>
-                      setOpenEditor({
-                        doEdit: true,
-                        item: {
-                          _id: element._id,
-                          tag: element.tag,
-                          category: element.category,
-                          valuePerShare: element.valuePerShare,
-                          totalShareAmount: element.totalShareAmount,
-                        },
-                      })
-                    }
-                  />
+                  <motion.div
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.85 }}
+                    style={{ backgroundColor: "inherit" }}
+                  >
+                    <Edit
+                      size={20}
+                      strokeWidth={2}
+                      color={"green"}
+                      onClick={() =>
+                        setOpenEditor({
+                          doEdit: true,
+                          item: {
+                            _id: element._id,
+                            tag: element.tag,
+                            category: element.category,
+                            valuePerShare: element.valuePerShare,
+                            totalShareAmount: element.totalShareAmount,
+                          },
+                        })
+                      }
+                    />
+                  </motion.div>
                 </td>
                 <td>
-                  <CircleLetterX
-                    size={20}
-                    strokeWidth={1}
-                    color={"red"}
-                    onClick={() => deleteHandler(element._id)}
-                  />
+                  <motion.div
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.85 }}
+                    style={{ backgroundColor: "inherit" }}
+                  >
+                    <CircleLetterX
+                      size={20}
+                      strokeWidth={1}
+                      color={"red"}
+                      onClick={() => deleteHandler(element._id)}
+                    />
+                  </motion.div>
                 </td>
               </tr>
             );
           })}
         </tbody>
       </Table>
-      {opendEditor.doEdit && (
-        <Flex
-          w={"100%"}
-          direction={"row"}
-          align={"center"}
-          justify={"space-between"}
-        >
-          <Title order={4} align="center">
-            Edit {opendEditor.item.tag} Values
-          </Title>
-          <form
-            onSubmit={form.onSubmit(() => editHandler(opendEditor.item._id))}
+      <AnimatePresence>
+        {opendEditor.doEdit && (
+          <motion.div
+            style={{ width: "100%" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
-            <Group position="right" my={"xl"}>
-              <CircleLetterX
-                size={20}
-                strokeWidth={1}
-                color={"red"}
-                onClick={() => setOpenEditor(defaultEditorState)}
-              />
-            </Group>
-            <Group className={styles.inputContainer}>
-              <Text>{opendEditor.item.tag} - Total Share Amount</Text>
-              <TextInput
-                type="number"
-                withAsterisk
-                {...form.getInputProps("totalShareAmount")}
-              />
-            </Group>
-            <Group className={styles.inputContainer}>
-              <Text>{opendEditor.item.tag} - Value</Text>
-              <TextInput
-                type="number"
-                withAsterisk
-                {...form.getInputProps("value")}
-              />
-            </Group>
-            <Group position="center">
-              <Button loading={loading} type="submit" color="gray">
-                Edit The Property
-              </Button>
-            </Group>
-          </form>
-        </Flex>
-      )}
+            <Flex
+              w={"100%"}
+              direction={"row"}
+              align={"center"}
+              justify={"space-between"}
+              my={"xl"}
+            >
+              <Group position="right" my={"xl"}>
+                <motion.div
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.85 }}
+                  style={{ backgroundColor: "inherit" }}
+                >
+                  <CircleLetterX
+                    size={20}
+                    strokeWidth={1}
+                    color={"red"}
+                    onClick={() => {
+                      setOpenEditor(defaultEditorState);
+                      window.scrollTo(0, document.body.scrollHeight);
+                    }}
+                  />
+                </motion.div>
+              </Group>
+              <Title order={4} align="center">
+                Edit {opendEditor.item.tag} Values
+              </Title>
+              <form
+                onSubmit={form.onSubmit(() =>
+                  editHandler(opendEditor.item._id)
+                )}
+              >
+                <Group className={styles.inputContainer}>
+                  <Text>{opendEditor.item.tag} - Total Share Amount</Text>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.85 }}
+                    style={{ backgroundColor: "inherit" }}
+                  >
+                    <TextInput
+                      type="number"
+                      withAsterisk
+                      {...form.getInputProps("totalShareAmount")}
+                    />
+                  </motion.div>
+                </Group>
+                <Group className={styles.inputContainer}>
+                  <Text>{opendEditor.item.tag} - Value</Text>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.85 }}
+                    style={{ backgroundColor: "inherit" }}
+                  >
+                    <TextInput
+                      type="number"
+                      withAsterisk
+                      {...form.getInputProps("value")}
+                    />
+                  </motion.div>
+                </Group>
+                <Group position="center">
+                  <Button loading={loading} type="submit" color="gray">
+                    Edit The Property
+                  </Button>
+                </Group>
+              </form>
+            </Flex>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Flex>
   );
 };

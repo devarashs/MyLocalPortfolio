@@ -5,7 +5,6 @@ const AboutScreen = () => {
     <Group
       mt={50}
       display={"flex"}
-      align="center"
       style={{
         alignItems: "center",
         justifyContent: "center",
