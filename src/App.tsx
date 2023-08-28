@@ -215,6 +215,36 @@ function App() {
               style={{ backgroundColor: "inherit" }}
             >
               <a
+                href="https://chill-hubs-organization.gitbook.io/my-local-portfolio-web-app/"
+                onClick={() => setOpened(!opened)}
+              >
+                <Navbar.Section
+                  my={"xs"}
+                  style={{ background: COLORS.lightGrey, borderRadius: "5px" }}
+                  py={"lg"}
+                  px={"sm"}
+                >
+                  <Group position="apart">
+                    <Text className="ltr-text-line">Project Documents</Text>
+                    <BrandGithub
+                      size={25}
+                      strokeWidth={2}
+                      color={
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[0]
+                          : theme.colors.gray[8]
+                      }
+                    />
+                  </Group>
+                </Navbar.Section>
+              </a>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.025 }}
+              whileTap={{ scale: 0.85 }}
+              style={{ backgroundColor: "inherit" }}
+            >
+              <a
                 href="https://github.com/devarashs/MyLocalPortfolio"
                 onClick={() => setOpened(!opened)}
               >
