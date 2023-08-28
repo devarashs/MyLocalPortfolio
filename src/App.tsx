@@ -6,7 +6,6 @@ import {
   Navbar,
   Header,
   Footer,
-  Aside,
   Text,
   MediaQuery,
   Burger,
@@ -20,10 +19,12 @@ import {
   ChartPie4,
   BrandGithub,
   AlertOctagon,
+  LayoutBoard,
 } from "tabler-icons-react";
 import { COLORS } from "./constants/theme";
 import {
   AboutScreen,
+  HomeScreen,
   MyPortfolioScreen,
   SigninScreen,
   SignupScreen,
@@ -67,7 +68,7 @@ function App() {
           >
             {!userInfo ? (
               <>
-                <Link to={"/signin"}>
+                <Link to={"/signin"} onClick={() => setOpened(!opened)}>
                   <Group
                     my={"xl"}
                     position="apart"
@@ -93,7 +94,7 @@ function App() {
               </>
             ) : (
               <>
-                <Link to={"/userdashboard"}>
+                <Link to={"/userdashboard"} onClick={() => setOpened(!opened)}>
                   <motion.div
                     whileHover={{ scale: 1.025 }}
                     whileTap={{ scale: 0.85 }}
@@ -181,6 +182,33 @@ function App() {
                 </Navbar.Section>
               </motion.div>
             </Link>
+            <Link to="/" onClick={() => setOpened(!opened)}>
+              <motion.div
+                whileHover={{ scale: 1.025 }}
+                whileTap={{ scale: 0.85 }}
+                style={{ backgroundColor: "inherit" }}
+              >
+                <Navbar.Section
+                  my={"xs"}
+                  style={{ background: COLORS.lightGrey, borderRadius: "5px" }}
+                  py={"lg"}
+                  px={"sm"}
+                >
+                  <Group position="apart">
+                    <Text className="ltr-text-line">Home</Text>
+                    <LayoutBoard
+                      size={25}
+                      strokeWidth={2}
+                      color={
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[0]
+                          : theme.colors.gray[8]
+                      }
+                    />
+                  </Group>
+                </Navbar.Section>
+              </motion.div>
+            </Link>
             <motion.div
               whileHover={{ scale: 1.025 }}
               whileTap={{ scale: 0.85 }}
@@ -212,7 +240,13 @@ function App() {
               </a>
             </motion.div>
             {userInfo ? (
-              <Link to={"/signin"} onClick={() => SignOutHandler()}>
+              <Link
+                to={"/signin"}
+                onClick={() => {
+                  SignOutHandler();
+                  setOpened(!opened);
+                }}
+              >
                 <motion.div
                   whileHover={{ scale: 1.025 }}
                   whileTap={{ scale: 0.85 }}
@@ -243,7 +277,7 @@ function App() {
                 </motion.div>
               </Link>
             ) : (
-              <Link to={"/signup"}>
+              <Link to={"/signup"} onClick={() => setOpened(!opened)}>
                 <motion.div
                   whileHover={{ scale: 1.025 }}
                   whileTap={{ scale: 0.85 }}
@@ -275,13 +309,13 @@ function App() {
             )}
           </Navbar>
         }
-        aside={
-          <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-            <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 300 }}>
-              <Text>User Assets</Text>
-            </Aside>
-          </MediaQuery>
-        }
+        // aside={
+        //   <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+        //     <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 300 }}>
+        //       <Text>User Assets</Text>
+        //     </Aside>
+        //   </MediaQuery>
+        // }
         footer={
           <Footer height={"auto"} p="md">
             <Text>
@@ -319,7 +353,7 @@ function App() {
           <Container mb={100} size={"lg"}>
             <Routes>
               {/* Public Routes */}
-              <Route path="/" element={<SignupScreen />} />
+              <Route path="/" element={<HomeScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
               {/* Protected Routes */}

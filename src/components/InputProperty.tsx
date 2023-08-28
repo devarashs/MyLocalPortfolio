@@ -45,8 +45,9 @@ const InputProperty: React.FC<InputProps> = ({ setDoRefetch, doRefetch }) => {
       // Handle the case when userInfo is null
       return;
     }
-    setLoading(true);
+
     try {
+      setLoading(true);
       const { data } = await axios.post(
         "/property/create",
         {

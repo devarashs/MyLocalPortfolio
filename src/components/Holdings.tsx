@@ -4,6 +4,7 @@ import {
   Flex,
   Group,
   LoadingOverlay,
+  ScrollArea,
   Table,
   Text,
   TextInput,
@@ -54,10 +55,9 @@ const Holdings: React.FC<DataArray> = ({ data, setDoRefetch, doRefetch }) => {
   const userInfo = useSelector(selectUserInfo);
   const deleteHandler = async (id: string) => {
     if (!userInfo) return;
-    setLoading(true);
-
     if (window.confirm("Are you sure to delete?")) {
       try {
+        setLoading(true);
         await axios.delete(`/property/${id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
@@ -77,8 +77,9 @@ const Holdings: React.FC<DataArray> = ({ data, setDoRefetch, doRefetch }) => {
 
   const editHandler = async (id: string) => {
     if (!userInfo) return;
-    setLoading(true);
+
     try {
+      setLoading(true);
       await axios.put(
         `/property/${id}`,
         {
@@ -134,59 +135,71 @@ const Holdings: React.FC<DataArray> = ({ data, setDoRefetch, doRefetch }) => {
           />
         </PieChart>
       </motion.div>
-      <Table highlightOnHover withBorder>
-        <tbody>
-          {(data as Element[]).map((element: Element, index: number) => {
-            return (
-              <tr key={index}>
-                <td>{element.tag}</td> <td>{element.category}</td>
-                <td>{element.valuePerShare}</td>
-                <td>{element.totalShareAmount}</td>
-                <td>{element.totalValue}</td>
-                <td>
-                  <motion.div
-                    whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.85 }}
-                    style={{ backgroundColor: "inherit" }}
-                  >
-                    <Edit
-                      size={20}
-                      strokeWidth={2}
-                      color={"green"}
-                      onClick={() =>
-                        setOpenEditor({
-                          doEdit: true,
-                          item: {
-                            _id: element._id,
-                            tag: element.tag,
-                            category: element.category,
-                            valuePerShare: element.valuePerShare,
-                            totalShareAmount: element.totalShareAmount,
-                          },
-                        })
-                      }
-                    />
-                  </motion.div>
-                </td>
-                <td>
-                  <motion.div
-                    whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.85 }}
-                    style={{ backgroundColor: "inherit" }}
-                  >
-                    <CircleLetterX
-                      size={20}
-                      strokeWidth={1}
-                      color={"red"}
-                      onClick={() => deleteHandler(element._id)}
-                    />
-                  </motion.div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
+      <ScrollArea
+        w={{ base: 350, sm: 450, md: 550, lg: 650, xl: 750 }}
+        type="always"
+        offsetScrollbars
+      >
+        <Table
+          miw={250}
+          style={{ overflowX: "scroll" }}
+          highlightOnHover
+          withBorder
+        >
+          <tbody>
+            {(data as Element[]).map((element: Element, index: number) => {
+              return (
+                <tr key={index}>
+                  <td>{element.tag}</td>
+                  <td>{element.category}</td>
+                  <td>{parseFloat(element.valuePerShare).toFixed(2)}</td>
+                  <td>{parseFloat(element.totalShareAmount).toFixed(2)}</td>
+                  <td>{element.totalValue.toFixed(2)}</td>
+                  <td>
+                    <motion.div
+                      whileHover={{ scale: 1.2 }}
+                      whileTap={{ scale: 0.85 }}
+                      style={{ backgroundColor: "inherit" }}
+                    >
+                      <Edit
+                        size={20}
+                        strokeWidth={2}
+                        color={"green"}
+                        onClick={() =>
+                          setOpenEditor({
+                            doEdit: true,
+                            item: {
+                              _id: element._id,
+                              tag: element.tag,
+                              category: element.category,
+                              valuePerShare: element.valuePerShare,
+                              totalShareAmount: element.totalShareAmount,
+                            },
+                          })
+                        }
+                      />
+                    </motion.div>
+                  </td>
+                  <td>
+                    <motion.div
+                      whileHover={{ scale: 1.2 }}
+                      whileTap={{ scale: 0.85 }}
+                      style={{ backgroundColor: "inherit" }}
+                    >
+                      <CircleLetterX
+                        size={20}
+                        strokeWidth={1}
+                        color={"red"}
+                        onClick={() => deleteHandler(element._id)}
+                      />
+                    </motion.div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+      </ScrollArea>
       <AnimatePresence>
         {opendEditor.doEdit && (
           <motion.div

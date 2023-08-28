@@ -1,3 +1,4 @@
 import useFetch from "./useFetch";
+import useCoins from "./useCoins";
 
-export { useFetch };
+export { useFetch, useCoins };

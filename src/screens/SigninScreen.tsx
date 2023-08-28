@@ -69,6 +69,7 @@ const SigninScreen = () => {
           gap={{ base: "sm", sm: "lg" }}
           justify={{ md: "center", lg: "space-between" }}
           align={"center"}
+          w={"100%"}
         >
           <form onSubmit={form.onSubmit(() => submitHandler())}>
             <Title

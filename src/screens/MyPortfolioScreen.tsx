@@ -1,7 +1,7 @@
 import { Holdings, InputProperty } from "../components";
 import React from "react";
 import { useFetch } from "../hooks";
-import { Divider, LoadingOverlay, Text } from "@mantine/core";
+import { Alert, Divider, LoadingOverlay } from "@mantine/core";
 
 const MyPortfolioScreen = () => {
   const [doRefetch, setDoRefetch] = React.useState(false);
@@ -12,7 +12,7 @@ const MyPortfolioScreen = () => {
   return data.isLoading ? (
     <LoadingOverlay visible={data.isLoading} />
   ) : data.error ? (
-    <Text>Something Went Wrong! trace code mps-1</Text>
+    <Alert color="grape">Something Went Wrong! trace code mps-1</Alert>
   ) : (
     <div>
       <Divider my={"xl"} />
