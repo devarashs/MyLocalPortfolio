@@ -4,7 +4,4 @@
 
 # Starting Steps
 
-```
-   yarn install
-   yarn dev
-```
+- For Full Guide and Documentation Go To https://chill-hubs-organization.gitbook.io/my-local-portfolio-web-app/overview/what-we-do
